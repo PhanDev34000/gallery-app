@@ -7,7 +7,7 @@ import { AuthService } from './auth';
   providedIn: 'root'
 })
 export class GalleryService {
-  private apiUrl = 'http://localhost:3000/api/galleries';
+  private apiUrl = 'https://gallery-api-kwcx.onrender.com/api/galleries';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

@@ -7,7 +7,7 @@ import { AuthService } from './auth';
   providedIn: 'root'
 })
 export class EmailService {
-  private apiUrl = 'http://localhost:3000/api/email';
+  private apiUrl = 'https://gallery-api-kwcx.onrender.com/api/email';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
