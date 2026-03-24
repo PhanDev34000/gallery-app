@@ -1,0 +1,37 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span>Nouvelle Galerie</span>
+</mat-toolbar>
+
+<div class="create-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Créer une nouvelle galerie</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="form-container">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Nom de la galerie</mat-label>
+          <input matInput [(ngModel)]="galleryData.name" placeholder="Ex: Mariage Sophie & Thomas">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Date de la prestation</mat-label>
+          <input matInput type="date" [(ngModel)]="galleryData.date">
+        </mat-form-field>
+
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+        <button mat-raised-button color="primary" (click)="onSubmit()">
+          <mat-icon>add</mat-icon>
+          Créer la galerie
+        </button>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

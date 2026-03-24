@@ -1,0 +1,96 @@
+<!-- Page mot de passe -->
+<div class="password-container" *ngIf="isProtected">
+  <div class="password-card">
+    <div class="password-header">
+      <div class="password-icon">🔒</div>
+      <div class="password-title">Galerie protégée</div>
+      <div class="password-subtitle">{{ gallery?.name }}</div>
+    </div>
+
+    <div class="password-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput type="password" [(ngModel)]="passwordInput"
+               (keyup.enter)="verifyPassword()"
+               placeholder="Entrez le mot de passe">
+      </mat-form-field>
+
+      <p class="error" *ngIf="passwordError">{{ passwordError }}</p>
+
+      <button class="password-submit-btn" (click)="verifyPassword()">
+        Accéder à la galerie
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Galerie -->
+<div *ngIf="!isProtected">
+
+  <!-- Navbar -->
+  <nav class="gallery-navbar">
+    <div class="navbar-left">
+      <button class="back-btn" *ngIf="isLoggedIn" (click)="goBack()">←</button>
+      <span class="gallery-title">📷 {{ gallery?.name }}</span>
+    </div>
+    <div class="navbar-right">
+      <button class="download-btn" *ngIf="favoriteCount > 0" (click)="downloadZip()">
+        ⬇ Télécharger mes favoris ({{ favoriteCount }})
+      </button>
+      <span class="fav-counter">❤️ {{ favoriteCount }}</span>
+    </div>
+  </nav>
+
+  <!-- Infos -->
+  <div class="gallery-info" *ngIf="gallery">
+    <p>{{ gallery.date | date:'dd MMMM yyyy' }}</p>
+    <p>{{ photos.length }} photos</p>
+  </div>
+
+  <!-- Grille de photos -->
+  <div class="photos-grid">
+    <div class="photo-item"
+      *ngFor="let photo of photos; let i = index"
+      [class.favorite]="photo.isFavorite"
+      (click)="openLightbox(photo, i)">
+
+      <img [src]="photo.url" [alt]="photo.filename">
+
+      <div class="photo-overlay">
+        <button class="fav-btn" (click)="$event.stopPropagation(); toggleFavorite(photo)">
+          {{ photo.isFavorite ? '❤️' : '🤍' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="photos.length === 0 && gallery">
+    <div class="empty-state-icon">🖼️</div>
+    <p>Aucune photo dans cette galerie</p>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" *ngIf="selectedPhoto" (click)="closeLightbox()">
+    <div class="lightbox-content" (click)="$event.stopPropagation()">
+
+      <button class="lightbox-close" (click)="closeLightbox()">✕</button>
+
+      <button class="lightbox-prev" (click)="prevPhoto()"
+              [disabled]="selectedIndex === 0">‹</button>
+
+      <img [src]="selectedPhoto.url" [alt]="selectedPhoto.filename">
+
+      <button class="lightbox-next" (click)="nextPhoto()"
+              [disabled]="selectedIndex === photos.length - 1">›</button>
+
+      <button class="lightbox-fav"
+              [class.active]="selectedPhoto.isFavorite"
+              (click)="toggleFavorite(selectedPhoto)">
+        {{ selectedPhoto.isFavorite ? '❤️ Retirer des favoris' : '🤍 Ajouter aux favoris' }}
+      </button>
+
+    </div>
+  </div>
+
+</div>

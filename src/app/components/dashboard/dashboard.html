@@ -1,0 +1,121 @@
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-brand">
+    <span>📷</span> Gallery App
+  </div>
+  <div class="navbar-right">
+    <span class="navbar-user">{{ user?.name }}</span>
+    <button class="logout-btn" (click)="logout()">Déconnexion</button>
+  </div>
+</nav>
+
+<!-- Contenu -->
+<div class="dashboard-container">
+
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h2>Mes Galeries</h2>
+    <button class="new-gallery-btn" (click)="createGallery()">
+      + Nouvelle galerie
+    </button>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="galleries.length === 0">
+    <div class="empty-state-icon">🖼️</div>
+    <p>Aucune galerie pour l'instant</p>
+    <button class="new-gallery-btn" (click)="createGallery()">
+      Créer ma première galerie
+    </button>
+  </div>
+
+  <!-- Grille de galeries -->
+  <div class="galleries-grid">
+    <div class="gallery-card" *ngFor="let gallery of galleries">
+
+      <!-- Miniature -->
+      <div class="card-thumb">
+        <span class="card-thumb-icon">🖼️</span>
+        <span class="card-protected-badge" *ngIf="gallery.isProtected">🔒 Protégée</span>
+      </div>
+
+      <!-- Infos -->
+      <div class="card-body">
+        <div class="card-title">{{ gallery.name }}</div>
+        <div class="card-date">{{ gallery.date | date:'dd MMMM yyyy' }}</div>
+
+        <div class="card-stats">
+          <span class="stat-badge">📸 {{ gallery.photoCount }} photos</span>
+          <span class="stat-badge">❤️ {{ gallery.favoriteCount }} favoris</span>
+        </div>
+
+        <!-- Actions principales -->
+        <div class="card-actions">
+          <button class="action-btn" (click)="uploadPhotos(gallery._id)">
+            ⬆ Ajouter
+          </button>
+          <button class="action-btn" (click)="copyLink(gallery.uniqueUrl)">
+            🔗 Lien
+          </button>
+          <button class="action-btn" (click)="openPasswordDialog(gallery)">
+            {{ gallery.isProtected ? '🔒' : '🔓' }}
+          </button>
+          <button class="action-btn danger" (click)="deleteGallery(gallery._id)">
+            🗑
+          </button>
+        </div>
+
+        <!-- Panel email -->
+        <div class="email-panel">
+          <div class="email-panel-header" (click)="showEmailForm[gallery._id] = !showEmailForm[gallery._id]">
+            ✉️ Envoyer par email
+            <span>{{ showEmailForm[gallery._id] ? '▲' : '▼' }}</span>
+          </div>
+
+          <div class="email-form" *ngIf="showEmailForm[gallery._id]">
+            <mat-form-field appearance="outline">
+              <mat-label>Nom du client</mat-label>
+              <input matInput [(ngModel)]="emailData[gallery._id].clientName" placeholder="Sophie & Thomas">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Email du client</mat-label>
+              <input matInput type="email" [(ngModel)]="emailData[gallery._id].clientEmail" placeholder="client@email.com">
+            </mat-form-field>
+
+            <p class="email-status" *ngIf="emailStatus[gallery._id]">{{ emailStatus[gallery._id] }}</p>
+
+            <button class="send-btn" (click)="sendEmail(gallery._id)">Envoyer le lien</button>
+          </div>
+        </div>
+
+        <!-- Panel mot de passe -->
+        <div class="password-panel" *ngIf="showPasswordForm[gallery._id]">
+          <div class="password-form">
+            <mat-form-field appearance="outline">
+              <mat-label>Nouveau mot de passe</mat-label>
+              <input matInput type="password" [(ngModel)]="passwordData[gallery._id]"
+                     placeholder="Mot de passe pour le client">
+            </mat-form-field>
+
+            <div class="password-actions">
+              <button class="password-btn" (click)="setPassword(gallery._id)">
+                🔒 Définir
+              </button>
+              <button class="password-btn remove" *ngIf="gallery.isProtected"
+                      (click)="removePassword(gallery._id)">
+                🔓 Supprimer
+              </button>
+            </div>
+
+            <p class="password-status" *ngIf="passwordStatus[gallery._id]">
+              {{ passwordStatus[gallery._id] }}
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

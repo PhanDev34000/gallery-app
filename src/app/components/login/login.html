@@ -1,0 +1,61 @@
+<div class="login-container">
+  <div class="login-card">
+
+    <!-- Header -->
+    <div class="login-header">
+      <div class="login-icon">📷</div>
+      <div class="login-title">Gallery App</div>
+      <div class="login-subtitle">Espace photographe</div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab" [class.active]="activeTab === 'login'" (click)="activeTab = 'login'">
+        Connexion
+      </div>
+      <div class="tab" [class.active]="activeTab === 'register'" (click)="activeTab = 'register'">
+        Inscription
+      </div>
+    </div>
+
+    <!-- Connexion -->
+    <div class="form-container" *ngIf="activeTab === 'login'">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" [(ngModel)]="loginData.email" placeholder="votre@email.com">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput type="password" [(ngModel)]="loginData.password">
+      </mat-form-field>
+
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <button class="submit-btn" (click)="onLogin()">Se connecter</button>
+    </div>
+
+    <!-- Inscription -->
+    <div class="form-container" *ngIf="activeTab === 'register'">
+      <mat-form-field appearance="outline">
+        <mat-label>Nom</mat-label>
+        <input matInput [(ngModel)]="registerData.name" placeholder="Votre nom">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" [(ngModel)]="registerData.email">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput type="password" [(ngModel)]="registerData.password">
+      </mat-form-field>
+
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <button class="submit-btn" (click)="onRegister()">S'inscrire</button>
+    </div>
+
+  </div>
+</div>

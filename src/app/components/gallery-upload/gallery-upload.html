@@ -1,0 +1,51 @@
+<!-- Navbar -->
+<nav class="upload-navbar">
+  <button class="back-btn" (click)="goBack()">←</button>
+  <span class="navbar-title">Ajouter des photos</span>
+</nav>
+
+<div class="upload-container">
+  <div class="upload-card">
+
+    <!-- Zone drag & drop -->
+    <ngx-dropzone class="dropzone" (change)="onFilesSelected($event)" accept="image/*">
+      <ngx-dropzone-label>
+        <div class="dropzone-icon">☁️</div>
+        <div class="dropzone-text">Glisse tes photos ici ou clique pour sélectionner</div>
+        <div class="dropzone-hint">JPG, PNG, WEBP — 20MB max par photo</div>
+      </ngx-dropzone-label>
+    </ngx-dropzone>
+
+    <!-- Barre de progression -->
+    <div class="progress-bar" *ngIf="isUploading">
+      <div class="progress-bar-fill"></div>
+    </div>
+
+    <!-- Message succès -->
+    <div class="success-message" *ngIf="uploadSuccess">
+      ✅ Photos uploadées avec succès ! Redirection...
+    </div>
+
+    <!-- Previews -->
+    <div class="previews-section" *ngIf="previews.length > 0">
+      <div class="previews-header">
+        {{ selectedFiles.length }} photo(s) sélectionnée(s)
+      </div>
+      <div class="previews-grid">
+        <div class="preview-item" *ngFor="let preview of previews; let i = index">
+          <img [src]="preview" alt="preview">
+          <button class="preview-remove" (click)="removeFile(i)">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bouton upload -->
+    <button
+      class="upload-btn"
+      [disabled]="selectedFiles.length === 0 || isUploading"
+      (click)="uploadPhotos()">
+      ⬆ Uploader {{ selectedFiles.length }} photo(s)
+    </button>
+
+  </div>
+</div>
