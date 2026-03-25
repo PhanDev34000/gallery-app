@@ -1,59 +1,164 @@
-# GalleryApp
+# 📷 Gallery App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.1.
+Application web de partage de galeries photos entre photographes et clients.
 
-## Development server
+![Gallery App Dashboard](assets/dashboard.png)
 
-To start a local development server, run:
+## 🌐 Demo
 
+🔗 **Live** : https://gallery-app-five-iota.vercel.app  
+🔗 **Frontend** : https://github.com/PhanDev34000/gallery-app  
+🔗 **Backend** : https://github.com/PhanDev34000/gallery-api  
+
+🔐 L'inscription est libre et rapide.
+
+---
+
+## 💡 Contexte
+
+En tant qu'ancien photographe professionnel, j'envoyais 200-300 photos à mes clients via WeTransfer. Ils devaient me renvoyer une liste de numéros de photos à retoucher, c'était fastidieux.
+
+J'ai créé cette application pour digitaliser ce processus : le client reçoit un lien, parcourt les photos et marque ses favoris d'un simple clic.
+
+---
+
+## ✨ Fonctionnalités
+
+### Côté Photographe
+- Authentification sécurisée (inscription / connexion)
+- Création et gestion de galeries photos
+- Upload multiple par drag & drop (jusqu'à 50 photos)
+- Envoi du lien par email directement depuis le dashboard
+- Protection optionnelle par mot de passe
+- Visualisation du nombre de favoris sélectionnés par le client
+- Suppression de galeries
+
+### Côté Client
+- Accès à la galerie via URL unique sécurisée
+- Grille de photos responsive
+- Lightbox plein écran avec navigation
+- Sélection de photos favorites ❤️
+- Téléchargement ZIP des photos favorites
+
+---
+
+## 🏗️ Architecture
+
+### Frontend (Angular 21)
+```
+gallery-app/
+├── components/
+│   ├── login/           # Authentification
+│   ├── dashboard/       # Gestion des galeries
+│   ├── gallery-create/  # Création de galerie
+│   ├── gallery-upload/  # Upload de photos
+│   └── gallery-view/    # Vue publique client
+├── services/
+│   ├── auth.ts          # Gestion JWT
+│   ├── gallery.ts       # CRUD galeries
+│   ├── photo.ts         # Gestion photos
+│   └── email.ts         # Envoi emails
+└── guards/
+    └── auth.guard.ts    # Protection des routes
+```
+
+### Backend (Node.js / Express)
+```
+gallery-api/
+├── models/
+│   ├── User.js          # Modèle utilisateur
+│   ├── Gallery.js       # Modèle galerie
+│   └── Photo.js         # Modèle photo
+├── routes/
+│   ├── auth.js          # Login / Register
+│   ├── galleries.js     # CRUD galeries
+│   └── photos.js        # Upload, favoris, ZIP
+└── middleware/
+    ├── auth.js          # Vérification JWT
+    └── upload.js        # Configuration Cloudinary
+```
+
+---
+
+## 🛠️ Stack Technique
+
+| Catégorie | Technologies |
+|-----------|-------------|
+| Frontend | Angular 21, TypeScript, Angular Material |
+| Backend | Node.js, Express.js |
+| Base de données | MongoDB Atlas, Mongoose |
+| Stockage photos | Cloudinary |
+| Emails | EmailJS |
+| Authentification | JWT, Bcrypt |
+| Déploiement | Vercel (frontend), Render (backend) |
+
+---
+
+## 🔧 Installation locale
+
+### Prérequis
+- Node.js 20+
+- Angular CLI
+- Compte MongoDB Atlas
+- Compte Cloudinary
+- Compte EmailJS
+
+### Backend
 ```bash
+git clone https://github.com/PhanDev34000/gallery-api.git
+cd gallery-api
+npm install
+```
+
+Crée un fichier `.env` :
+```
+PORT=3000
+MONGODB_URI=ta_uri_mongodb
+JWT_SECRET=ton_secret_jwt
+CLOUDINARY_CLOUD_NAME=ton_cloud_name
+CLOUDINARY_API_KEY=ta_api_key
+CLOUDINARY_API_SECRET=ton_api_secret
+```
+```bash
+npm run dev
+```
+
+### Frontend
+```bash
+git clone https://github.com/PhanDev34000/gallery-app.git
+cd gallery-app
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 🚀 Points techniques remarquables
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **Upload Cloudinary** : Intégration Multer + Cloudinary pour stockage cloud des photos
+- **URLs sécurisées** : Génération d'identifiants uniques avec le module `crypto` de Node.js
+- **ZIP dynamique** : Téléchargement des favoris en ZIP généré à la volée avec `archiver`
+- **EmailJS** : Envoi d'emails depuis le frontend pour éviter les restrictions SMTP
+- **Protection par mot de passe** : Hashage bcrypt des mots de passe de galeries
+- **ChangeDetectorRef** : Gestion optimisée de la détection de changements Angular
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 📸 Screenshots
 
-```bash
-ng generate --help
-```
+### Dashboard Photographe
+![Dashboard](assets/SC_GalerieApp.PNG)
 
-## Building
+### Vue Publique Client
+![Gallery View](assets/SC_GalerieApp_1.PNG)
 
-To build the project run:
+### Upload de Photos
+![Upload](assets/upload.png)
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 👤 Auteur
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**Stéphane Vernière**  
+🔗 Portfolio : [ton-portfolio.fr](https://ton-portfolio.fr)  
+🔗 GitHub : [@PhanDev34000](https://github.com/PhanDev34000)
