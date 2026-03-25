@@ -67,25 +67,33 @@ export class Dashboard implements OnInit {
   }
 
   sendEmail(galleryId: string) {
-    const data = this.emailData[galleryId];
-    if (!data.clientEmail || !data.clientName) {
-      this.emailStatus[galleryId] = 'Veuillez remplir le nom et l\'email du client';
-      return;
-    }
-
-    this.emailStatus[galleryId] = 'Envoi en cours...';
-    this.emailService.sendGalleryLink(galleryId, data.clientEmail, data.clientName).subscribe({
-      next: () => {
-        this.emailStatus[galleryId] = '✅ Email envoyé avec succès !';
-        this.emailData[galleryId] = { clientName: '', clientEmail: '' };
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        this.emailStatus[galleryId] = '❌ Erreur : ' + (err.error.message || 'Erreur inconnue');
-        this.cdr.detectChanges();
-      }
-    });
+  const data = this.emailData[galleryId];
+  if (!data.clientEmail || !data.clientName) {
+    this.emailStatus[galleryId] = 'Veuillez remplir le nom et l\'email du client';
+    return;
   }
+
+  const gallery = this.galleries.find(g => g._id === galleryId);
+
+  this.emailStatus[galleryId] = 'Envoi en cours...';
+  this.emailService.sendGalleryLink(
+    galleryId,
+    data.clientEmail,
+    data.clientName,
+    gallery.name,
+    gallery.uniqueUrl
+  ).subscribe({
+    next: () => {
+      this.emailStatus[galleryId] = '✅ Email envoyé avec succès !';
+      this.emailData[galleryId] = { clientName: '', clientEmail: '' };
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      this.emailStatus[galleryId] = '❌ Erreur : ' + err.message;
+      this.cdr.detectChanges();
+    }
+  });
+}
 
   deleteGallery(id: string) {
     if (confirm('Supprimer cette galerie ?')) {
