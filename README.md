@@ -2,7 +2,7 @@
 
 Application web de partage de galeries photos entre photographes et clients.
 
-![Gallery App Dashboard](assets/dashboard.png)
+![Gallery App Dashboard](assets/SC_GalerieApp.PNG)
 
 ## 🌐 Demo
 
@@ -152,13 +152,10 @@ ng serve
 ### Vue Publique Client
 ![Gallery View](assets/SC_GalerieApp_1.PNG)
 
-### Upload de Photos
-![Upload](assets/upload.png)
-
 ---
 
 ## 👤 Auteur
 
 **Stéphane Vernière**  
-🔗 Portfolio : [ton-portfolio.fr](https://ton-portfolio.fr)  
+🔗 Portfolio : [verniere-dev.fr](https://verniere-dev.fr)  
 🔗 GitHub : [@PhanDev34000](https://github.com/PhanDev34000)
